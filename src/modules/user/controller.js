@@ -3,14 +3,14 @@ export const createAccount = async (event) => {
     return {
       statusCode: 200,
       body: JSON.stringify({
-        message: "Create account",
+        message: 'Create account',
         input: event,
       }),
-    };
+    }
   } catch (err) {
     return {
       statusCode: 500,
       body: JSON.stringify(err),
-    };
+    }
   }
-};
+}
