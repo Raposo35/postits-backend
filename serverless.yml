@@ -25,3 +25,10 @@ functions:
       - http:
           path: user/create
           method: post
+          request:
+            schema:
+              application/json:
+                {
+                  "type": "object",
+                  "required": ["firstName", "lastName", "email", "password"],
+                }

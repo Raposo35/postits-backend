@@ -1,5 +1,5 @@
 import { createUser } from './service'
-import { created, serverError } from '../../utils/responses'
+import { created, serverError, badRequest } from '../../utils/responses'
 
 export const createAccount = async (event) => {
   try {
@@ -7,6 +7,7 @@ export const createAccount = async (event) => {
     const user = await createUser(body)
     return created(user)
   } catch (err) {
+    if (err.code === 11000) return badRequest('email existente!!')
     return serverError(err)
   }
 }
