@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken'
 
 import UserSchema from './schema'
 import connectToDatabase from '../../utils/connectToDatabase'
+import generatePolicy from '../../utils/generatePolicy'
 
 const SALT = 8
 
@@ -31,4 +32,11 @@ export const loginService = async (userData) => {
     .exec()
   if (!bcrypt.compareSync(userData.password, user.password)) throw new Error('password_incorrect')
   return createLoginToken(user)
+}
+
+const decoder = (token) => jwt.verify(token, process.env.LOGIN_TOKEN_SECRET)
+
+export const userAuthorizer = async (token, policy) => {
+  const decoded = decoder(token)
+  return generatePolicy(decoded.id, 'allow', policy, decoded)
 }
